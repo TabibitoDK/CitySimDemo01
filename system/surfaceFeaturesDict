@@ -1,0 +1,22 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      surfaceFeaturesDict;
+}
+
+// Triangulated surface format
+surfaceFormat   triSurfaceMesh;
+
+// Input geometry relative to case root
+surfaces
+(
+    geometry/city_buildings.stl
+);
+
+// Capture sharp building edges; higher angle keeps fewer features
+includedAngle   150;
+
+// Extra outputs not needed for snappy
+writeObj        no;
