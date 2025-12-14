@@ -12,7 +12,7 @@ surfaceFormat   triSurfaceMesh;
 // Input geometry relative to case root
 surfaces
 (
-    geometry/city_buildings.stl
+    "geometry/city_buildings.stl"
 );
 
 // Capture sharp building edges; higher angle keeps fewer features
