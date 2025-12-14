@@ -1,3 +1,13 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      k;
+}
+
+dimensions      [0 2 -2 0 0 0 0];
+
 internalField   uniform 2.63; // Your calculated k
 
 boundaryField
@@ -11,9 +21,28 @@ boundaryField
         flowDir         (1 0 0);
         value           uniform 2.63;
     }
-    maxX { type inletOutlet; inletValue uniform 2.63; value uniform 2.63; }
-    ground { type kqRWallFunction; value uniform 2.63; } // Wall function for ground
-    buildings { type kqRWallFunction; value uniform 2.63; }
-    top { type slip; }
-    sides { type slip; }
+    maxX
+    {
+        type            inletOutlet;
+        inletValue      uniform 2.63;
+        value           uniform 2.63;
+    }
+    ground
+    {
+        type            kqRWallFunction; // Wall function for ground
+        value           uniform 2.63;
+    }
+    buildings
+    {
+        type            kqRWallFunction;
+        value           uniform 2.63;
+    }
+    top
+    {
+        type            zeroGradient;
+    }
+    sides
+    {
+        type            zeroGradient;
+    }
 }

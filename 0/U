@@ -20,8 +20,8 @@ internalField   uniform (10 0 0); // Initial guess: 10 m/s in X direction
 
 boundaryField
 {
-    // The "INLET" patch: Atmospheric Boundary Layer
-    inlet
+    // minX is the inlet in blockMeshDict
+    minX
     {
         type            atmBoundaryLayerInletVelocity;
         
@@ -39,8 +39,8 @@ boundaryField
         value           uniform (10 0 0);
     }
 
-    // The "OUTLET" patch
-    outlet
+    // maxX is the outlet in blockMeshDict
+    maxX
     {
         type            inletOutlet; // Allows backflow if necessary, but treats as zeroGradient mostly
         inletValue      uniform (0 0 0);
