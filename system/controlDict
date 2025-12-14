@@ -1,0 +1,32 @@
+application     simpleFoam;
+
+startFrom       startTime;
+startTime       0;
+stopAt          endTime;
+endTime         2000; // Iterations, not seconds (Steady State)
+
+deltaT          1; // Pseudo-time step for relaxation
+
+writeControl    timeStep;
+writeInterval   100; // Save results every 100 iterations
+
+purgeWrite      5; // Only keep the last 5 save files to save disk space
+
+format          binary; // Faster reading/writing
+
+functions
+{
+    // Probe to monitor wind speed at specific points (e.g., pedestrian level)
+    probes
+    {
+        type            probes;
+        libs            ("libsampling.so");
+        writeControl    timeStep;
+        writeInterval   10;
+        fields          (U p);
+        probeLocations
+        (
+            (10 10 1.75) // Checking wind speed at 1.75m height (human height)
+        );
+    }
+}

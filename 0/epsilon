@@ -1,0 +1,19 @@
+internalField uniform 0.034; // Your calculated epsilon
+
+boundaryField
+{
+    minX // Inlet
+    {
+        type            atmBoundaryLayerInletEpsilon; // Auto-calculates profile
+Uref            10.0;
+Zref            50.0;
+z0 uniform 0.5;
+flowDir(1 0 0);
+value uniform 0.034;
+    }
+    maxX { type inletOutlet; inletValue uniform 0.034; value uniform 0.034; }
+    ground { type epsilonWallFunction; value uniform 0.034; }
+    buildings { type epsilonWallFunction; value uniform 0.034; }
+    top { type slip; }
+    sides { type slip; }
+}

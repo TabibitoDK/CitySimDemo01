@@ -1,0 +1,58 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012+                                |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0]; // m^2/s^2 (Kinematic Pressure)
+
+internalField   uniform 0; // Relative pressure starts at 0
+
+boundaryField
+{
+    minX // Inlet
+    {
+        // At the inlet, we define Velocity, so Pressure is allowed to float.
+        type            zeroGradient;
+    }
+
+    maxX // Outlet
+    {
+        // We anchor the pressure at the outlet to 0 (Gauge Pressure).
+        // This drives the flow from High P (Inlet) to Low P (Outlet).
+        type            fixedValue;
+        value           uniform 0;
+    }
+
+    ground
+    {
+        // Walls are impermeable, so pressure gradient normal to wall is zero.
+        type            zeroGradient;
+    }
+
+    buildings
+    {
+        type            zeroGradient;
+    }
+
+    top
+    {
+        // Matches the "slip" condition on Velocity
+        type            zeroGradient; 
+    }
+    
+    sides
+    {
+        type            zeroGradient;
+    }
+}

@@ -1,0 +1,69 @@
+/*---------------------------------------------------------------------------*\
+    The mesher cuts the 'city_buildings.stl' out of the blockMesh.
+\*---------------------------------------------------------------------------*/
+
+castellatedMesh true;
+snap            true;
+addLayers       true; // Adds prism layers for boundary layer resolution
+
+geometry
+{
+    city_buildings.stl
+    {
+        type triSurfaceMesh;
+        name buildings; 
+    }
+}
+
+castellatedMeshControls
+{
+    maxGlobalCells 2000000; // Safety limit
+    minRefinementCells 10;
+    nCellsBetweenLevels 3;
+
+    features
+    (
+        {
+            file "city_buildings.eMesh"; // Extracted edges for sharp corners
+            level 3;
+        }
+    );
+
+    refinementSurfaces
+    {
+        buildings
+        {
+            level (3 4); // Refine mesh level 3 min, 4 max near buildings
+        }
+    }
+
+    resolveFeatureAngle 30;
+    
+    // IMPORTANT: Point inside the mesh but OUTSIDE the buildings
+    // Adjust this coordinate to be in the air!
+    locationInMesh (0 0 50); 
+}
+
+snapControls
+{
+    nSmoothPatch 3;
+    tolerance 2.0;
+    nSolveIter 30;
+    nRelaxIter 5;
+}
+
+addLayersControls
+{
+    relativeSizes true;
+    layers
+    {
+        buildings
+        {
+            nSurfaceLayers 3; // 3 layers of cells hugging the building
+        }
+        ground
+        {
+            nSurfaceLayers 2;
+        }
+    }
+}

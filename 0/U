@@ -1,0 +1,70 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012+                                |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0]; // m/s
+
+internalField   uniform (10 0 0); // Initial guess: 10 m/s in X direction
+
+boundaryField
+{
+    // The "INLET" patch: Atmospheric Boundary Layer
+    inlet
+    {
+        type            atmBoundaryLayerInletVelocity;
+        
+        // The reference velocity (U_ref) at reference height (Z_ref)
+        Uref            10.0;    // 10 m/s
+        Zref            50.0;    // at 50 meters height
+        
+        // Aerodynamic roughness length (z0). 
+        // 0.5-1.0 for city centers, 0.03 for open fields.
+        z0              uniform 0.5; 
+        
+        // Flow direction (normalized vector)
+        flowDir         (1 0 0); 
+        
+        value           uniform (10 0 0);
+    }
+
+    // The "OUTLET" patch
+    outlet
+    {
+        type            inletOutlet; // Allows backflow if necessary, but treats as zeroGradient mostly
+        inletValue      uniform (0 0 0);
+        value           uniform (0 0 0);
+    }
+
+    // The GROUND and BUILDINGS
+    ground
+    {
+        type            noSlip; // Air sticks to the ground
+    }
+    
+    buildings
+    {
+        type            noSlip;
+    }
+
+    // TOP and SIDES of the domain
+    top
+    {
+        type            slip; // Air slides along this wall (no friction)
+    }
+    sides
+    {
+        type            slip;
+    }
+}

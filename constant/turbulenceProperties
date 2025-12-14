@@ -1,0 +1,13 @@
+simulationType  RAS;
+
+RAS
+{
+    // The specific model to use
+    model           kEpsilon;
+
+    // Turn turbulence on? Yes.
+    turbulence      on;
+
+    // Print details to the console?
+    printCoeffs     on;
+}

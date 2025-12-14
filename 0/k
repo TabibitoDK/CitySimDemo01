@@ -1,0 +1,19 @@
+internalField   uniform 2.63; // Your calculated k
+
+boundaryField
+{
+    minX // Inlet
+    {
+        type            atmBoundaryLayerInletK; // Auto-calculates profile
+        Uref            10.0;
+        Zref            50.0;
+        z0              uniform 0.5;
+        flowDir         (1 0 0);
+        value           uniform 2.63;
+    }
+    maxX { type inletOutlet; inletValue uniform 2.63; value uniform 2.63; }
+    ground { type kqRWallFunction; value uniform 2.63; } // Wall function for ground
+    buildings { type kqRWallFunction; value uniform 2.63; }
+    top { type slip; }
+    sides { type slip; }
+}
