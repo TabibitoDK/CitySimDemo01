@@ -9,11 +9,10 @@ addLayers       true; // Adds prism layers for boundary layer resolution
 geometry
 {
     // STL sits in constant/geometry
-    city_buildings.stl
+    constant/geometry/city_buildings.stl
     {
         type triSurfaceMesh;
         name buildings; 
-        file "$FOAM_CASE/constant/geometry/city_buildings.stl"; // absolute path for Colab/WSL
     }
 }
 
@@ -26,7 +25,7 @@ castellatedMeshControls
     features
     (
         {
-            file "$FOAM_CASE/constant/geometry/city_buildings.eMesh"; // Extracted edges for sharp corners
+            file "constant/geometry/city_buildings.eMesh"; // Extracted edges for sharp corners
             level 3;
         }
     );

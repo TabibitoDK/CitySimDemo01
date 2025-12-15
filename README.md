@@ -57,7 +57,7 @@ simpleFoam   # or use decomposePar/mpirun if you adjust numberOfSubdomains
 ```
 3) Quick checklist for Colab:
 - Ensure the STL is at `constant/geometry/city_buildings.stl`; if you unzipped somewhere else, move it there.
-- Run `pwd` to confirm you are in `.../CitySimDemo01` before calling any OpenFOAM utilities (otherwise `system/blockMeshDict` will not be found). Paths in the dicts now use `$FOAM_CASE/constant/geometry/...` to avoid double `geometry/` prefixes on Colab.
+- Run `pwd` to confirm you are in `.../CitySimDemo01` before calling any OpenFOAM utilities (otherwise `system/blockMeshDict` will not be found). Paths in the dicts now use `constant/geometry/...` to avoid double `geometry/` prefixes on Colab.
 - No GUI on Colab: export with `foamToVTK` or `postProcess -func sample` and download the results.
 
 ## Notes for v9
