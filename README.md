@@ -70,6 +70,10 @@ You can also run the bundled script (after `chmod +x run_colab.sh`):
 ```bash
 ./run_colab.sh /content/CitySimDemo01   # defaults to the script directory if omitted
 ```
+The script will:
+- Print `Using case: ...` and list `system/` so you can confirm `blockMeshDict` is found.
+- Fail early if `blockMeshDict` is missing or OpenFOAM is not installed.
+- Move `geometry/city_buildings.stl` into `constant/geometry/` if needed.
 
 ## Notes for v9
 - Patch names now match across mesh and fields (`minX`, `maxX`, `sides`, `top`, `ground`, `buildings`).
