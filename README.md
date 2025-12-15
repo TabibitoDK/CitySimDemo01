@@ -47,18 +47,27 @@ sudo apt-get install -y openfoam9 git
 source /opt/openfoam9/etc/bashrc
 git clone <your_repo_url> CitySimDemo01 && cd CitySimDemo01   # or unzip your uploaded case
 ```
-2) Run the same commands from the case root:
+2) Run the same commands from the case root (explicit -case to avoid path issues):
 ```bash
-surfaceFeatures
-blockMesh
-snappyHexMesh -overwrite
-checkMesh -allTopology -allGeometry
-simpleFoam   # or use decomposePar/mpirun if you adjust numberOfSubdomains
+case=/content/CitySimDemo01
+export FOAM_CASE=$case
+
+surfaceFeatures -case $case
+blockMesh -case $case
+snappyHexMesh -overwrite -case $case
+checkMesh -allTopology -allGeometry -case $case
+simpleFoam -case $case   # or use decomposePar/mpirun if you adjust numberOfSubdomains
 ```
 3) Quick checklist for Colab:
 - Ensure the STL is at `constant/geometry/city_buildings.stl`; if you unzipped somewhere else, move it there.
-- Run `pwd` to confirm you are in `.../CitySimDemo01` before calling any OpenFOAM utilities (otherwise `system/blockMeshDict` will not be found). Paths in the dicts reference `city_buildings.stl` / `city_buildings.eMesh` and OpenFOAM automatically prepends `constant/geometry/`, so do not add that prefix in the dicts.
+- Run `pwd` to confirm you are in `.../CitySimDemo01` before calling any OpenFOAM utilities (otherwise `system/blockMeshDict` will not be found). Use `-case $case` as shown above if you are unsure of the working directory.
 - No GUI on Colab: export with `foamToVTK` or `postProcess -func sample` and download the results.
+
+### One-liner helper for Colab
+You can also run the bundled script (after `chmod +x run_colab.sh`):
+```bash
+./run_colab.sh /content/CitySimDemo01
+```
 
 ## Notes for v9
 - Patch names now match across mesh and fields (`minX`, `maxX`, `sides`, `top`, `ground`, `buildings`).
