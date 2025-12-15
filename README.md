@@ -49,24 +49,25 @@ git clone <your_repo_url> CitySimDemo01 && cd CitySimDemo01   # or unzip your up
 ```
 2) Run the same commands from the case root (explicit -case to avoid path issues):
 ```bash
+# adjust if your folder name/path differs
 case=/content/CitySimDemo01
 export FOAM_CASE=$case
 
-surfaceFeatures -case $case
-blockMesh -case $case
-snappyHexMesh -overwrite -case $case
-checkMesh -allTopology -allGeometry -case $case
-simpleFoam -case $case   # or use decomposePar/mpirun if you adjust numberOfSubdomains
+surfaceFeatures -case "$case"
+blockMesh -case "$case"
+snappyHexMesh -overwrite -case "$case"
+checkMesh -allTopology -allGeometry -case "$case"
+simpleFoam -case "$case"   # or use decomposePar/mpirun if you adjust numberOfSubdomains
 ```
 3) Quick checklist for Colab:
 - Ensure the STL is at `constant/geometry/city_buildings.stl`; if you unzipped somewhere else, move it there.
-- Run `pwd` to confirm you are in `.../CitySimDemo01` before calling any OpenFOAM utilities (otherwise `system/blockMeshDict` will not be found). Use `-case $case` as shown above if you are unsure of the working directory.
+- Run `pwd` to confirm you are in `.../CitySimDemo01` before calling any OpenFOAM utilities (otherwise `system/blockMeshDict` will not be found). Use `-case $case` as shown above if you are unsure of the working directory. If you unzipped and got a nested folder (e.g. `/content/CitySimDemo01/CitySimDemo01`), set `case` to the inner folder.
 - No GUI on Colab: export with `foamToVTK` or `postProcess -func sample` and download the results.
 
 ### One-liner helper for Colab
 You can also run the bundled script (after `chmod +x run_colab.sh`):
 ```bash
-./run_colab.sh /content/CitySimDemo01
+./run_colab.sh /content/CitySimDemo01   # defaults to the script directory if omitted
 ```
 
 ## Notes for v9
