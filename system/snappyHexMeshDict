@@ -1,3 +1,11 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+
 /*---------------------------------------------------------------------------*\
     The mesher cuts the 'city_buildings.stl' out of the blockMesh.
 \*---------------------------------------------------------------------------*/
@@ -25,7 +33,7 @@ castellatedMeshControls
     features
     (
         {
-            file "city_buildings.eMesh"; // Extracted edges for sharp corners
+            file "constant/geometry/city_buildings.eMesh"; // Extracted edges for sharp corners
             level 3;
         }
     );
