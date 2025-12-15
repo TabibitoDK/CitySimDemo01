@@ -62,6 +62,7 @@ simpleFoam -case "$case"   # or use decomposePar/mpirun if you adjust numberOfSu
 3) Quick checklist for Colab:
 - Ensure the STL is at `constant/geometry/city_buildings.stl`; if you unzipped somewhere else, move it there.
 - Run `pwd` to confirm you are in `.../CitySimDemo01` before calling any OpenFOAM utilities (otherwise `system/blockMeshDict` will not be found). Use `-case $case` as shown above if you are unsure of the working directory. If you unzipped and got a nested folder (e.g. `/content/CitySimDemo01/CitySimDemo01`), set `case` to the inner folder.
+- Run inside a bash shell (Colab `%bash` cell is fine); the helper script temporarily disables `set -u` while sourcing `/opt/openfoam9/etc/bashrc` to avoid the `ZSH_NAME` unbound variable error.
 - No GUI on Colab: export with `foamToVTK` or `postProcess -func sample` and download the results.
 
 ### One-liner helper for Colab

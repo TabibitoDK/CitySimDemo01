@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -eo pipefail
 
 # Usage: ./run_colab.sh [/content/CitySimDemo01]
 # If no argument is given, the script directory is used as the case root.
@@ -26,7 +26,10 @@ if [ ! -f "$CASE_DIR/constant/geometry/city_buildings.stl" ] && [ -f "$CASE_DIR/
   mv "$CASE_DIR/geometry/city_buildings.stl" "$CASE_DIR/constant/geometry/"
 fi
 
-source /opt/openfoam9/etc/bashrc
+(
+  set +u
+  source /opt/openfoam9/etc/bashrc
+)
 export FOAM_CASE="$CASE_DIR"
 
 cd "$CASE_DIR"
