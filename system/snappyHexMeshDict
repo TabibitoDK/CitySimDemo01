@@ -1,3 +1,11 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+
 /*---------------------------------------------------------------------------*\
     The mesher cuts the 'city_buildings.stl' out of the blockMesh.
 \*---------------------------------------------------------------------------*/
@@ -8,7 +16,8 @@ addLayers       true; // Adds prism layers for boundary layer resolution
 
 geometry
 {
-    geometry/city_buildings.stl
+    // STL sits in constant/geometry (OpenFOAM will prepend that automatically)
+    city_buildings.stl
     {
         type triSurfaceMesh;
         name buildings; 
@@ -24,7 +33,7 @@ castellatedMeshControls
     features
     (
         {
-            file "geometry/city_buildings.eMesh"; // Extracted edges for sharp corners
+            file "constant/geometry/city_buildings.eMesh"; // Extracted edges for sharp corners
             level 3;
         }
     );

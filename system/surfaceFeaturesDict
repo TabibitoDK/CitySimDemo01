@@ -6,13 +6,13 @@ FoamFile
     object      surfaceFeaturesDict;
 }
 
-// Triangulated surface format
+// Triangulated surface format; reads from constant/geometry by default
 surfaceFormat   triSurfaceMesh;
 
-// Input geometry relative to case root
+// Input geometry inside constant/geometry
 surfaces
 (
-    "geometry/city_buildings.stl"
+    "city_buildings.stl"
 );
 
 // Capture sharp building edges; higher angle keeps fewer features

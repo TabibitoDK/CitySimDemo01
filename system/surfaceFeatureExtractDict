@@ -1,0 +1,25 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      surfaceFeatureExtractDict;
+}
+
+// Extract sharp features from the STL for snappyHexMesh refinement
+surfaces
+(
+    city_buildings
+    {
+        extractionMethod extractFromSurface;
+        extractFromSurfaceCoeffs
+        {
+            // Explicit path so we do not rely on the default triSurface location
+            file            "constant/geometry/city_buildings.stl";
+            includedAngle   150;
+        }
+
+        // Keep the auxiliary OBJ output disabled
+        writeObj        no;
+    }
+);
