@@ -16,8 +16,8 @@ addLayers       true; // Adds prism layers for boundary layer resolution
 
 geometry
 {
-    // STL sits in constant/geometry (OpenFOAM will prepend that automatically)
-    city_buildings.stl
+    // STL lives in constant/geometry/
+    constant/geometry/city_buildings.stl
     {
         type triSurfaceMesh;
         name buildings; 
@@ -51,6 +51,29 @@ castellatedMeshControls
     // IMPORTANT: Point inside the mesh but OUTSIDE the buildings
     // Adjust this coordinate to be in the air!
     locationInMesh (0 0 50); 
+}
+
+meshQualityControls
+{
+    maxNonOrtho         65;
+    maxBoundarySkewness 20;
+    maxInternalSkewness 4;
+    maxConcave          80;
+    minVol              1e-13;
+    minTetQuality       1e-15;
+    minArea             -1;
+    minTwist            0.02;
+    minDeterminant      0.001;
+    minFaceWeight       0.02;
+    minVolRatio         0.01;
+    minTriangleTwist    -1;
+    nSmoothScale        4;
+    errorReduction      0.75;
+
+    relaxed
+    {
+        maxNonOrtho 75;
+    }
 }
 
 snapControls

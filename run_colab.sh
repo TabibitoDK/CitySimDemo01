@@ -47,7 +47,7 @@ export FOAM_CASE="$CASE_DIR"
 
 cd "$CASE_DIR"
 
-surfaceFeatureExtract -case "$CASE_DIR" -dict system/surfaceFeatureExtractDict
+surfaceFeatures -case "$CASE_DIR" -dict system/surfaceFeaturesDict
 blockMesh -case "$CASE_DIR"
 snappyHexMesh -overwrite -case "$CASE_DIR"
 checkMesh -allTopology -allGeometry -case "$CASE_DIR"

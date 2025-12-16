@@ -24,14 +24,12 @@ boundaryField
     }
     ground
     {
-        // Special wall function for Atmospheric roughness
-        type            nutkAtmRoughWallFunction; 
-        z0              uniform 0.5; // Must match the U file z0
+        type            nutkWallFunction;
         value           uniform 0;
     }
     buildings
     {
-        type            nutkWallFunction; // Standard wall function for buildings
+        type            nutkWallFunction;
         value           uniform 0;
     }
     top

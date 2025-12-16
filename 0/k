@@ -14,11 +14,7 @@ boundaryField
 {
     minX // Inlet
     {
-        type            atmBoundaryLayerInletK; // Auto-calculates profile
-        Uref            10.0;
-        Zref            50.0;
-        z0              uniform 0.5;
-        flowDir         (1 0 0);
+        type            fixedValue;
         value           uniform 2.63;
     }
     maxX

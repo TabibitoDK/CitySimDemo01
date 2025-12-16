@@ -23,20 +23,8 @@ boundaryField
     // minX is the inlet in blockMeshDict
     minX
     {
-        type            atmBoundaryLayerInletVelocity;
-        
-        // The reference velocity (U_ref) at reference height (Z_ref)
-        Uref            10.0;    // 10 m/s
-        Zref            50.0;    // at 50 meters height
-        
-        // Aerodynamic roughness length (z0). 
-        // 0.5-1.0 for city centers, 0.03 for open fields.
-        z0              uniform 0.5; 
-        
-        // Flow direction (normalized vector)
-        flowDir         (1 0 0); 
-        
-        value           uniform (10 0 0);
+        type            fixedValue;
+        value           uniform (10 0 0); // Simple uniform inlet velocity
     }
 
     // maxX is the outlet in blockMeshDict
