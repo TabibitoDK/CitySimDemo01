@@ -11,25 +11,19 @@ solvers
 {
     p
     {
-        // GAMG is generally more robust than PCG+DIC on snappyHexMesh meshes
-        // and avoids some DIC-related floating point exceptions.
-        solver          GAMG;
-        tolerance       1e-07;
-        relTol          0.01;
-
-        smoother        GaussSeidel;
-        nPreSweeps      0;
-        nPostSweeps     2;
-        cacheAgglomeration true;
-        agglomerator    faceAreaPair;
-        nCellsInCoarsestLevel 20;
-        mergeLevels     1;
+        // Use a Krylov solver that avoids GAMG's coarsest-level PCG path,
+        // which can still FPE on marginal meshes.
+        solver          PBiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-08;
+        relTol          0;
+        maxIter         200;
     }
 
     pFinal
     {
         $p;
-        tolerance       1e-08;
+        tolerance       1e-09;
         relTol          0;
     }
 
@@ -69,7 +63,8 @@ solvers
 SIMPLE
 {
     // snappyHexMesh often creates non-orthogonal cells; use extra correctors
-    nNonOrthogonalCorrectors 2;
+    nNonOrthogonalCorrectors 3;
+    consistent      yes;
     pRefCell        0;
     pRefValue       0;
 
@@ -85,13 +80,13 @@ relaxationFactors
 {
     fields
     {
-        p           0.2;
+        p           0.1;
     }
 
     equations
     {
-        U           0.5;
-        k           0.5;
-        epsilon     0.5;
+        U           0.3;
+        k           0.3;
+        epsilon     0.3;
     }
 }

@@ -63,4 +63,8 @@ surfaceFeatures -case "$CASE_DIR" -dict system/surfaceFeaturesDict
 blockMesh -case "$CASE_DIR"
 snappyHexMesh -overwrite -case "$CASE_DIR"
 checkMesh -allTopology -allGeometry -case "$CASE_DIR"
+if [ "${INIT_POTENTIAL:-0}" = "1" ]; then
+  echo "INIT_POTENTIAL=1: running potentialFoam initialization"
+  potentialFoam -case "$CASE_DIR" -writep
+fi
 simpleFoam -case "$CASE_DIR"

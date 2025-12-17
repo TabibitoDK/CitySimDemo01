@@ -14,22 +14,25 @@ ddtSchemes
 
 gradSchemes
 {
-    default         Gauss linear;
-    grad(U)         Gauss linear;
+    // Limit gradients for robustness on snappy meshes
+    default         cellLimited Gauss linear 1;
+    grad(U)         cellLimited Gauss linear 1;
 }
 
 divSchemes
 {
     default                         none;
-    div(phi,U)                      bounded Gauss linearUpwind grad(U);
-    div(phi,k)                      Gauss upwind;
-    div(phi,epsilon)                Gauss upwind;
+    // More diffusive but much more stable on poor-quality cells
+    div(phi,U)                      bounded Gauss upwind;
+    div(phi,k)                      bounded Gauss upwind;
+    div(phi,epsilon)                bounded Gauss upwind;
     div((nuEff*dev2(T(grad(U)))))   Gauss linear;
 }
 
 laplacianSchemes
 {
-    default         Gauss linear corrected;
+    // Limit non-orthogonal correction to reduce instability
+    default         Gauss linear limited 0.33;
 }
 
 interpolationSchemes
@@ -39,7 +42,7 @@ interpolationSchemes
 
 snGradSchemes
 {
-    default         corrected;
+    default         limited 0.33;
 }
 
 fluxRequired
