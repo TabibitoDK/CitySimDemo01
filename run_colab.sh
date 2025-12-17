@@ -53,6 +53,12 @@ export FOAM_CASE="$CASE_DIR"
 
 cd "$CASE_DIR"
 
+if [ "${NO_LAYERS:-0}" = "1" ]; then
+  echo "NO_LAYERS=1: disabling snappyHexMesh layers (addLayers false;)"
+  # Keep it simple: flip the top-level addLayers switch.
+  sed -i -E 's/^(addLayers[[:space:]]+)true;/\\1false;/' "$CASE_DIR/system/snappyHexMeshDict" || true
+fi
+
 surfaceFeatures -case "$CASE_DIR" -dict system/surfaceFeaturesDict
 blockMesh -case "$CASE_DIR"
 snappyHexMesh -overwrite -case "$CASE_DIR"

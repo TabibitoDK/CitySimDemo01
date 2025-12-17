@@ -79,3 +79,8 @@ The script will:
 - Patch names now match across mesh and fields (`minX`, `maxX`, `sides`, `top`, `ground`, `buildings`).
 - Turbulence fields include proper headers/dimensions for OpenFOAM v9 parsing.
 - `snappyHexMeshDict` points to `constant/geometry/city_buildings.stl` and the generated `constant/geometry/city_buildings.eMesh`; `surfaceFeaturesDict` is included to build that edge file.
+
+## If `simpleFoam` crashes with `Floating point exception`
+- First check the mesh: `checkMesh -allTopology -allGeometry -case "$case"` and fix any `***Error` (zero/negative volume, extreme non-orthogonality/skewness).
+- If the problem appears after `snappyHexMesh` layer addition, try disabling layers (`addLayers false;`) and re-run `snappyHexMesh`, `checkMesh`, then `simpleFoam`.
+- Use a more robust pressure setup on snappy meshes: set `p` to `GAMG` and increase `SIMPLE/nNonOrthogonalCorrectors` in `system/fvSolution`.
