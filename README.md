@@ -83,4 +83,4 @@ The script will:
 ## If `simpleFoam` crashes with `Floating point exception`
 - First check the mesh: `checkMesh -allTopology -allGeometry -case "$case"` and fix any `***Error` (zero/negative volume, extreme non-orthogonality/skewness).
 - If the problem appears after `snappyHexMesh` layer addition, try disabling layers (`addLayers false;`) and re-run `snappyHexMesh`, `checkMesh`, then `simpleFoam`.
-- Use a more robust pressure setup on snappy meshes: set `p` to `GAMG` and increase `SIMPLE/nNonOrthogonalCorrectors` in `system/fvSolution`.
+- Use a robust pressure setup on snappy meshes and keep it consistent with matrix type: the pressure equation is symmetric, so `p` must use symmetric preconditioners (`DIC`, `FDIC`, `diagonal`, `none`) in `system/fvSolution`.

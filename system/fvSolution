@@ -11,10 +11,10 @@ solvers
 {
     p
     {
-        // Use a Krylov solver that avoids GAMG's coarsest-level PCG path,
-        // which can still FPE on marginal meshes.
-        solver          PBiCGStab;
-        preconditioner  DILU;
+        // Pressure equation is symmetric; use a symmetric solver + preconditioner.
+        // (DILU is for asymmetric matrices and will trigger "Unknown symmetric matrix preconditioner".)
+        solver          PCG;
+        preconditioner  FDIC;
         tolerance       1e-08;
         relTol          0;
         maxIter         200;
