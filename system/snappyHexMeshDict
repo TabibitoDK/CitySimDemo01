@@ -16,8 +16,9 @@ addLayers       true; // Adds prism layers for boundary layer resolution
 
 geometry
 {
-    // STL lives in constant/geometry/
-    constant/geometry/city_buildings.stl
+    // snappyHexMesh resolves triSurfaceMesh files relative to constant/geometry/
+    // so keep the key as a simple file name (no slashes).
+    city_buildings.stl
     {
         type triSurfaceMesh;
         name buildings; 
@@ -26,14 +27,17 @@ geometry
 
 castellatedMeshControls
 {
+    maxLocalCells 1000000;
     maxGlobalCells 2000000; // Safety limit
     minRefinementCells 10;
+    maxLoadUnbalance 0.10;
     nCellsBetweenLevels 3;
 
     features
     (
         {
-            file "constant/geometry/city_buildings.eMesh"; // Extracted edges for sharp corners
+            // surfaceFeatures writes this alongside the STL in constant/geometry/
+            file "city_buildings.eMesh";
             level 3;
         }
     );
@@ -43,6 +47,10 @@ castellatedMeshControls
         buildings
         {
             level (3 4); // Refine mesh level 3 min, 4 max near buildings
+            patchInfo
+            {
+                type wall;
+            }
         }
     }
 
@@ -51,6 +59,8 @@ castellatedMeshControls
     // IMPORTANT: Point inside the mesh but OUTSIDE the buildings
     // Adjust this coordinate to be in the air!
     locationInMesh (0 0 50); 
+
+    allowFreeStandingZoneFaces true;
 }
 
 meshQualityControls
@@ -82,6 +92,11 @@ snapControls
     tolerance 2.0;
     nSolveIter 30;
     nRelaxIter 5;
+
+    nFeatureSnapIter 10;
+    implicitFeatureSnap false;
+    explicitFeatureSnap true;
+    multiRegionFeatureSnap false;
 }
 
 addLayersControls
@@ -98,4 +113,26 @@ addLayersControls
             nSurfaceLayers 2;
         }
     }
+
+    expansionRatio          1.2;
+    finalLayerThickness     0.3;
+    minThickness            0.1;
+    nGrow                   0;
+
+    featureAngle            60;
+    slipFeatureAngle        30;
+
+    nRelaxIter              5;
+    nSmoothSurfaceNormals   1;
+    nSmoothNormals          3;
+    nSmoothThickness        10;
+
+    maxFaceThicknessRatio   0.5;
+    maxThicknessToMedialRatio 0.3;
+    minMedianAxisAngle      90;
+
+    nBufferCellsNoExtrude   0;
+    nLayerIter              50;
 }
+
+mergeTolerance 1e-6;

@@ -34,6 +34,12 @@ if [ ! -f "$CASE_DIR/constant/geometry/city_buildings.stl" ] && [ -f "$CASE_DIR/
   mv "$CASE_DIR/geometry/city_buildings.stl" "$CASE_DIR/constant/geometry/"
 fi
 
+# Handle accidental double-nesting from some zip layouts: constant/geometry/constant/geometry/...
+if [ ! -f "$CASE_DIR/constant/geometry/city_buildings.stl" ] && [ -f "$CASE_DIR/constant/geometry/constant/geometry/city_buildings.stl" ]; then
+  mkdir -p "$CASE_DIR/constant/geometry"
+  mv "$CASE_DIR/constant/geometry/constant/geometry/city_buildings.stl" "$CASE_DIR/constant/geometry/"
+fi
+
 if [ ! -f /opt/openfoam9/etc/bashrc ]; then
   echo "OpenFOAM not installed at /opt/openfoam9. Please install openfoam9 first." >&2
   exit 1
