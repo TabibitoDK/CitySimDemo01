@@ -59,7 +59,26 @@ if [ "${NO_LAYERS:-0}" = "1" ]; then
   sed -i -E 's/^(addLayers[[:space:]]+)true;/\\1false;/' "$CASE_DIR/system/snappyHexMeshDict" || true
 fi
 
-surfaceFeatures -case "$CASE_DIR" -dict system/surfaceFeaturesDict
+# Foundation OpenFOAM (v9) provides surfaceFeatureExtract, while some builds provide surfaceFeatures.
+if command -v surfaceFeatureExtract >/dev/null 2>&1; then
+  surfaceFeatureExtract -case "$CASE_DIR" -dict system/surfaceFeatureExtractDict
+elif command -v surfaceFeatures >/dev/null 2>&1; then
+  surfaceFeatures -case "$CASE_DIR" -dict system/surfaceFeaturesDict
+else
+  echo "Neither surfaceFeatureExtract nor surfaceFeatures is available in this OpenFOAM install." >&2
+  exit 1
+fi
+
+# snappyHexMeshDict expects the eMesh alongside the STL under constant/geometry/.
+if [ ! -f "$CASE_DIR/constant/geometry/city_buildings.eMesh" ]; then
+  FOUND_EMESH="$(find "$CASE_DIR/constant" -maxdepth 4 -type f -name city_buildings.eMesh 2>/dev/null | head -n1 || true)"
+  if [ -n "$FOUND_EMESH" ] && [ "$FOUND_EMESH" != "$CASE_DIR/constant/geometry/city_buildings.eMesh" ]; then
+    mkdir -p "$CASE_DIR/constant/geometry"
+    cp "$FOUND_EMESH" "$CASE_DIR/constant/geometry/city_buildings.eMesh"
+  fi
+fi
+test -f "$CASE_DIR/constant/geometry/city_buildings.eMesh" || { echo "Missing $CASE_DIR/constant/geometry/city_buildings.eMesh"; exit 1; }
+
 blockMesh -case "$CASE_DIR"
 snappyHexMesh -overwrite -case "$CASE_DIR"
 checkMesh -allTopology -allGeometry -case "$CASE_DIR"
